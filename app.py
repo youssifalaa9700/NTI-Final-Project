@@ -206,6 +206,9 @@ input_df = input_df.apply(pd.to_numeric, errors="coerce").fillna(0)
 # Prediction
 probability = model.predict_proba(input_df)[0][1]
 
+# Convert probability to percentage
+probability_percent = probability * 100
+
 # =========================================
 # RESULTS
 # =========================================
