@@ -209,6 +209,9 @@ probability = model.predict_proba(input_df)[0][1]
 # Convert probability to percentage
 probability_percent = probability * 100
 
+# Convert probability to prediction
+prediction = int(probability >= 0.5)
+
 # =========================================
 # RESULTS
 # =========================================
