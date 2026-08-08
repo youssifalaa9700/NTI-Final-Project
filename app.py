@@ -191,6 +191,9 @@ if predict_button:
     input_df = input_df.reindex(columns=feature_names, fill_value=0)
 
     # Prediction probability
+    input_df = input_df.reindex(columns=feature_names, fill_value=0)
+    input_df = input_df.apply(pd.to_numeric, errors="coerce").fillna(0)
+
     probability = model.predict_proba(input_df)[0][1]
 
     prediction = 1 if probability >= 0.5 else 0
