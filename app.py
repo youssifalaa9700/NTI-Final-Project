@@ -188,7 +188,7 @@ if predict_button:
     input_df = pd.DataFrame([input_data])
 
     # Make sure feature order is exactly the same
-  input_df = input_df.reindex(columns=feature_names, fill_value=0)
+    input_df = input_df.reindex(columns=feature_names, fill_value=0)
 
     # Prediction probability
     probability = model.predict_proba(input_df)[0][1]
