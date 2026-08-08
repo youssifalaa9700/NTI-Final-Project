@@ -206,22 +206,19 @@ input_df = input_df.apply(pd.to_numeric, errors="coerce").fillna(0)
 # Prediction
 probability = model.predict_proba(input_df)[0][1]
 
+# =========================================
+# RESULTS
+# =========================================
 
-    # ==========================================
-    # RESULTS
-    # ==========================================
+st.subheader("📊 Prediction Result")
 
-    st.subheader("📊 Prediction Result")
+result_col1, result_col2 = st.columns(2)
 
-    result_col1, result_col2 = st.columns(2)
-
-
-    with result_col1:
-
-        st.metric(
-            "Default Probability",
-            f"{probability_percent:.2f}%"
-        )
+with result_col1:
+    st.metric(
+        "Default Probability",
+        f"{probability_percent:.2f}%"
+    )
 
 
     with result_col2:
