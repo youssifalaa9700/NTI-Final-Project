@@ -184,21 +184,27 @@ if predict_button:
     input_data["CREDIT_INCOME_RATIO"] = credit_income_ratio
     input_data["ANNUITY_INCOME_RATIO"] = annuity_income_ratio
 
-    # Convert to DataFrame
-    input_df = pd.DataFrame([input_data])
+   # Create input dataframe
+input_df = pd.DataFrame([input_data])
 
-    # Make sure feature order is exactly the same
-    input_df = input_df.reindex(columns=feature_names, fill_value=0)
+# Get the exact features expected by the trained XGBoost model
+expected_features = model.get_booster().feature_names
 
-    # Prediction probability
-    input_df = input_df.reindex(columns=feature_names, fill_value=0)
-    input_df = input_df.apply(pd.to_numeric, errors="coerce").fillna(0)
+# If feature names exist, match them exactly
+if expected_features is not None:
+    new_input = pd.DataFrame(0.0, index=[0], columns=expected_features)
 
-    probability = model.predict_proba(input_df)[0][1]
+    for col in input_df.columns:
+        if col in new_input.columns:
+            new_input[col] = input_df[col].iloc[0]
 
-    prediction = 1 if probability >= 0.5 else 0
+    input_df = new_input
 
-    probability_percent = probability * 100
+# Make sure everything is numeric
+input_df = input_df.apply(pd.to_numeric, errors="coerce").fillna(0)
+
+# Prediction
+probability = model.predict_proba(input_df)[0][1]
 
 
     # ==========================================
